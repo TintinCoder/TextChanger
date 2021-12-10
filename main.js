@@ -1,6 +1,11 @@
 var video;
 var canvas;
 var poseNet;
+var noseX = 0;
+var noseY = 0;
+var leftWristX = 0;
+var rightWristX = 0;
+var differece = 0;
 
 function setup(){
     video = createCapture(VIDEO);
@@ -14,14 +19,23 @@ function setup(){
 }
 function draw(){
     background('#636d78')
+    textSize(differece);
+    fill('#FFE787');
+    text('Code', noseX, noseY)
 }
 
 function modelReady(){
-    console.log('poseNet is ready');
+    console.log("Model ready")
 }
 
 function gotPoses(results){
     if(results.length > 0) {
-        console.log(results)
+        console.log(results);
+        noseX = results[0].pose.nose.x;
+        noseY = results[0].pose.nose.y;
+
+        leftWristX = results[0].pose.leftWrist.x;
+        rightWristX = results[0].pose.rightWrist.x;
+        differece = floor(leftWristX - rightWristX)
     }
 }
